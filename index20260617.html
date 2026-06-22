@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neo-Americanism | Hegemonic Reconfiguration in the Post-Unipolar Order</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Chart.js for Data Viz -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        dark: { 900: '#0B0F19', 800: '#111827', 700: '#1F2937' },
+                        neon: { blue: '#3B82F6', purple: '#8B5CF6', cyan: '#06B6D4', red: '#EF4444', gold: '#F59E0B' }
+                    },
+                    animation: {
+                        'gradient': 'gradient 8s linear infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        gradient: { '0%, 100%': { 'background-position': '0% 50%' }, '50%': { 'background-position': '100% 50%' } },
+                        float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-20px)' } }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #0B0F19; color: #E2E8F0; font-family: 'Inter', sans-serif; }
+        .bg-grid {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .glass {
+            background: rgba(17, 24, 39, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 50%, #06B6D4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: gradient 5s ease infinite;
+        }
+        .glow-border {
+            position: relative; background: #111827; border-radius: 1rem;
+        }
+        .glow-border::before {
+            content: ''; position: absolute; inset: -1px; border-radius: 1rem; padding: 1px;
+            background: linear-gradient(135deg, rgba(59,130,246,0.4), rgba(139,92,246,0.05), rgba(6,182,212,0.4));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
+        }
+        .matrix-cell {
+            transition: all 0.3s ease;
+        }
+        .matrix-cell:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.2);
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0B0F19; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body class="bg-grid antialiased selection:bg-neon-purple selection:text-white">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-neon-blue to-neon-purple flex items-center justify-center">
+                    <i class="fas fa-cube text-white text-sm"></i>
+                </div>
+                <span class="font-bold text-lg tracking-tight text-white">Neo-Americanism<span class="text-neon-blue">.</span></span>
+            </div>
+            <div class="hidden lg:flex space-x-8 text-sm font-medium text-slate-400">
+                <a href="#framework" class="hover:text-white transition">Framework</a>
+                <a href="#pillars" class="hover:text-white transition">Power Pillars</a>
+                <a href="#vulnerabilities" class="hover:text-white transition">Vulnerabilities</a>
+                <a href="#casestudy" class="hover:text-white transition">Case Study</a>
+                <a href="#matrix" class="hover:text-white transition">2050 Matrix</a>
+                <a href="#policy" class="hover:text-white transition">Policy</a>
+            </div>
+            <a href="#bluf" class="hidden md:block px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition border border-white/10">
+                Read BLUF
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
+        <div class="absolute top-20 left-1/4 w-96 h-96 bg-neon-blue/20 rounded-full filter blur-[120px] animate-float"></div>
+        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-neon-purple/20 rounded-full filter blur-[120px] animate-float" style="animation-delay: 2s;"></div>
+
+        <div class="relative max-w-5xl mx-auto px-6 text-center" data-aos="fade-up">
+            <div class="inline-flex items-center px-3 py-1 rounded-full border border-neon-blue/30 bg-neon-blue/5 text-neon-blue text-xs font-semibold mb-8 tracking-wider uppercase">
+                <i class="fas fa-circle text-[6px] mr-2 animate-pulse"></i> Full Policy Edition // Strategic Foresight Briefing
+            </div>
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight text-white mb-6 leading-[1.1]">
+                Hegemonic Reconfiguration <br>
+                <span class="text-gradient">in the Post-Unipolar Order</span>
+            </h1>
+            <p class="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed">
+                Deconstructing the structural power, systemic vulnerabilities, and deep-future trajectories of the Neo-American operating system. A complex adaptive systems approach to global statecraft.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#bluf" class="px-8 py-4 rounded-xl bg-gradient-to-r from-neon-blue to-neon-purple text-white font-semibold hover:opacity-90 transition shadow-lg shadow-neon-blue/20">
+                    Executive Summary <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+                <a href="#framework" class="px-8 py-4 rounded-xl bg-white/5 border border-white/10 text-white font-semibold hover:bg-white/10 transition">
+                    Explore the Book
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- BLUF (Bottom Line Up Front) -->
+    <section id="bluf" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Executive Summary <span class="text-slate-500 font-normal text-2xl">(BLUF)</span></h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">The "Unipolar Moment" is dead. The "Hegemonic Operating System" is mutating.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="glow-border p-8" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-12 h-12 rounded-lg bg-neon-blue/10 flex items-center justify-center mb-6 text-neon-blue text-xl"><i class="fas fa-microchip"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-3">The Kernel is Intact</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Dollar hegemony, root-level tech architectures (AI/Quantum), and alliance networks provide high systemic resilience. Coupling Score: <span class="text-neon-cyan font-semibold">0.69 (High)</span>.</p>
+                </div>
+                <div class="glow-border p-8" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-12 h-12 rounded-lg bg-neon-purple/10 flex items-center justify-center mb-6 text-neon-purple text-xl"><i class="fas fa-exclamation-triangle"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-3">The UI/UX is Fracturing</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Domestic polarization and epistemic collapse are causing severe "memory leaks" in the hegemonic OS, degrading global narrative appeal by 27% since 2013.</p>
+                </div>
+                <div class="glow-border p-8" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-12 h-12 rounded-lg bg-neon-cyan/10 flex items-center justify-center mb-6 text-neon-cyan text-xl"><i class="fas fa-clock"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-3">The Chronopolitical Battleground</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">The next great power war is over <span class="text-white font-medium">Agenda-Setting Authority</span>: who defines the AGI alignment and Net-Zero transition timelines.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analytical Framework -->
+    <section id="framework" class="py-24 bg-dark-800/50 border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Analytical Framework: <span class="text-gradient">Beyond IR Binaries</span></h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">Moving past traditional Realism vs. Liberalism debates using a Complex Adaptive Systems (CAS) approach.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div data-aos="fade-right">
+                    <h3 class="text-2xl font-bold text-white mb-6">The Post-Unipolar Paradigm Shift</h3>
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center text-red-400 mt-1"><i class="fas fa-times"></i></div>
+                            <div>
+                                <h4 class="text-white font-semibold">From: Universalist Expansion</h4>
+                                <p class="text-slate-400 text-sm">Global evangelism, open markets, and broad multilateral institutions (WTO, UN).</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="w-10 h-10 rounded-full bg-neon-cyan/10 flex items-center justify-center text-neon-cyan mt-1"><i class="fas fa-arrow-right"></i></div>
+                            <div>
+                                <h4 class="text-white font-semibold">To: Minilateral "Walled Gardens"</h4>
+                                <p class="text-slate-400 text-sm">Exclusive tech-blocs (Chip 4, AUKUS), friend-shoring, and weaponized interdependence.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="w-10 h-10 rounded-full bg-neon-purple/10 flex items-center justify-center text-neon-purple mt-1"><i class="fas fa-lock"></i></div>
+                            <div>
+                                <h4 class="text-white font-semibold">Chokepoint Governance</h4>
+                                <p class="text-slate-400 text-sm">Shifting from hard kinetic power to controlling critical nodes (SWIFT, EDA software, advanced lithography).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass p-8 rounded-2xl" data-aos="fade-left">
+                    <h4 class="text-sm font-bold text-neon-blue uppercase tracking-wider mb-4">Theoretical Intersection (CAS)</h4>
+                    <div class="space-y-4 text-sm">
+                        <div class="p-4 bg-dark-700 rounded-lg border-l-4 border-neon-blue">
+                            <span class="font-bold text-white">Structural Realism:</span> <span class="text-slate-400">Hard power, military bedrock, and survival in an anarchic system.</span>
+                        </div>
+                        <div class="p-4 bg-dark-700 rounded-lg border-l-4 border-neon-purple">
+                            <span class="font-bold text-white">Liberal Institutionalism:</span> <span class="text-slate-400">Rule-locking, API governance, and Bretton Woods veto power.</span>
+                        </div>
+                        <div class="p-4 bg-dark-700 rounded-lg border-l-4 border-neon-cyan">
+                            <span class="font-bold text-white">Constructivism:</span> <span class="text-slate-400">Narrative warfare, algorithmic curation, and cognitive alliances.</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-6 italic">* Power is multiplicative, not additive. A deficit in one domain is compensated by over-indexing in another.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Five Pillars -->
+    <section id="pillars" class="py-24">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div data-aos="fade-right">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">The Pentagonal Architecture <br><span class="text-gradient">of Structural Power</span></h2>
+                    <p class="text-slate-400 mb-8 leading-relaxed">The U.S. hegemonic ecosystem relies on five asymmetric pillars. Power is no longer additive; it is multiplicative.</p>
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between text-sm mb-2"><span class="text-white font-medium">Technological (The Vanguard)</span><span class="text-neon-cyan">91% AI Compute Share</span></div>
+                            <div class="w-full bg-dark-700 rounded-full h-2"><div class="bg-neon-cyan h-2 rounded-full" style="width: 91%"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-2"><span class="text-white font-medium">Military (The Bedrock)</span><span class="text-neon-blue">$900B+ Budget / JADC2</span></div>
+                            <div class="w-full bg-dark-700 rounded-full h-2"><div class="bg-neon-blue h-2 rounded-full" style="width: 85%"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-2"><span class="text-white font-medium">Economic (The Network)</span><span class="text-neon-purple">Weaponized Finance</span></div>
+                            <div class="w-full bg-dark-700 rounded-full h-2"><div class="bg-neon-purple h-2 rounded-full" style="width: 78%"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-2"><span class="text-white font-medium">Institutional (The API)</span><span class="text-slate-400">Bretton Woods Veto</span></div>
+                            <div class="w-full bg-dark-700 rounded-full h-2"><div class="bg-slate-500 h-2 rounded-full" style="width: 65%"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-2"><span class="text-white font-medium">Cultural (The Interface)</span><span class="text-neon-gold">56% Foreign STEM PhDs</span></div>
+                            <div class="w-full bg-dark-700 rounded-full h-2"><div class="bg-neon-gold h-2 rounded-full" style="width: 72%"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative flex justify-center" data-aos="fade-left">
+                    <div class="w-full max-w-md aspect-square">
+                        <canvas id="radarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Systemic Vulnerabilities -->
+    <section id="vulnerabilities" class="py-24 bg-dark-800/50 border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Systemic Vulnerabilities: <span class="text-neon-red text-gradient" style="background: linear-gradient(135deg, #EF4444, #F59E0B); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Memory Leaks in the OS</span></h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">Competitors do not need to defeat the U.S. militarily; they only need to accelerate these internal feedback loops of decay.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="glass p-6 rounded-2xl border-t-4 border-neon-red" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex justify-between items-center mb-4">
+                        <i class="fas fa-brain text-neon-red text-2xl"></i>
+                        <span class="text-xs font-bold text-neon-red bg-neon-red/10 px-2 py-1 rounded">HIGH / HIGH</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Epistemic Collapse</h3>
+                    <p class="text-slate-400 text-sm">Algorithmic silos and deepfakes destroying shared reality. U.S. democratic appeal dropped 27 pts since 2013 (Pew).</p>
+                </div>
+                <div class="glass p-6 rounded-2xl border-t-4 border-neon-gold" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex justify-between items-center mb-4">
+                        <i class="fas fa-chart-line text-neon-gold text-2xl"></i>
+                        <span class="text-xs font-bold text-neon-gold bg-neon-gold/10 px-2 py-1 rounded">HIGH / MED</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Fiscal-Industrial Mismatch</h3>
+                    <p class="text-slate-400 text-sm">$34T+ National Debt vs. the inflationary costs of "Friend-shoring" and forced re-industrialization.</p>
+                </div>
+                <div class="glass p-6 rounded-2xl border-t-4 border-neon-purple" data-aos="fade-up" data-aos-delay="300">
+                    <div class="flex justify-between items-center mb-4">
+                        <i class="fas fa-balance-scale text-neon-purple text-2xl"></i>
+                        <span class="text-xs font-bold text-neon-purple bg-neon-purple/10 px-2 py-1 rounded">MED / HIGH</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Governance Lag</h3>
+                    <p class="text-slate-400 text-sm">Exponential tech (AI/Bio) evolving at warp speed vs. linear, gridlocked congressional regulation.</p>
+                </div>
+                <div class="glass p-6 rounded-2xl border-t-4 border-neon-blue" data-aos="fade-up" data-aos-delay="400">
+                    <div class="flex justify-between items-center mb-4">
+                        <i class="fas fa-handshake text-neon-blue text-2xl"></i>
+                        <span class="text-xs font-bold text-neon-blue bg-neon-blue/10 px-2 py-1 rounded">MED / MED</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Alliance Transactionalism</h3>
+                    <p class="text-slate-400 text-sm">The Global South's hedging strategies and European "Strategic Autonomy" friction weakening the bloc.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Case Study: Ukraine -->
+    <section id="casestudy" class="py-24">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="relative flex justify-center" data-aos="fade-right">
+                    <div class="w-full max-w-md aspect-square">
+                        <canvas id="couplingChart"></canvas>
+                    </div>
+                </div>
+                <div data-aos="fade-left">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Empirical Verification: <br><span class="text-gradient">Stress-Testing the OS</span></h2>
+                    <p class="text-slate-400 mb-8 leading-relaxed">Process tracing the Ukraine Conflict reveals how multi-domain synergy generates asymmetric impact multipliers.</p>
+                    
+                    <div class="space-y-6">
+                        <div class="glass p-5 rounded-xl">
+                            <h4 class="text-neon-cyan font-bold text-sm uppercase tracking-wider mb-2">Phase 1: Pre-War (Narrative Preemption)</h4>
+                            <p class="text-slate-400 text-sm">Declassified intelligence disrupted Russian false-flag operations, locking in NATO institutional alignment.</p>
+                        </div>
+                        <div class="glass p-5 rounded-xl">
+                            <h4 class="text-neon-purple font-bold text-sm uppercase tracking-wider mb-2">Phase 2: Kinetic & Economic Synergy</h4>
+                            <p class="text-slate-400 text-sm">SWIFT ejection + Tech embargoes + Proxy logistics. Brookings data shows a <span class="text-white font-bold">2.1x impact multiplier</span> from full-spectrum synergy vs. single-domain sanctions.</p>
+                        </div>
+                        <div class="glass p-5 rounded-xl">
+                            <h4 class="text-neon-gold font-bold text-sm uppercase tracking-wider mb-2">The Coupling Score Evolution</h4>
+                            <p class="text-slate-400 text-sm">U.S. Hegemonic Coupling Score declined from <span class="text-white font-bold">0.82 (1995)</span> to <span class="text-white font-bold">0.69 (2025)</span>. The OS is bruised, but remains in the High-Resilience Threshold.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2050 Matrix -->
+    <section id="matrix" class="py-24 bg-dark-800/50 border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Strategic Foresight: <span class="text-gradient">The 2050 Matrix</span></h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">Nine Vectors of Systemic Control. Territorial conquest is obsolete. The 21st-century empire is built on Data Gravity and Algorithmic Curation.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6" data-aos="fade-up">
+                <!-- Row 1: Foundational -->
+                <div class="matrix-cell glass p-6 rounded-xl border-l-4 border-neon-blue">
+                    <span class="text-xs font-bold text-neon-blue uppercase">Foundational</span>
+                    <h3 class="text-xl font-bold text-white mt-2 mb-2">Spatial Hegemony</h3>
+                    <p class="text-slate-400 text-sm">Orbital infrastructure, deep-sea cables, and lunar resource claims.</p>
+                </div>
+                <div class="matrix-cell glass p-6 rounded-xl border-l-4 border-neon-blue">
+                    <span class="text-xs font-bold text-neon-blue uppercase">Foundational</span>
+                    <h3 class="text-xl font-bold text-white mt-2 mb-2">Temporal Hegemony</h3>
+                    <p class="text-slate-400 text-sm">Chronopolitics: Dictating the clock speed of global tech and climate evolution.</p>
+                </div>
+                <div class="matrix-cell glass p-6 rounded-xl border-l-4 border-neon-blue">
+                    <span class="text-xs font-bold text-neon-blue uppercase">Foundational</span>
+                    <h3 class="text-xl font-bold text-white mt-2 mb-2">Invisible Hegemony</h3>
+                    <p class="text-slate-400 text-sm">Algorithmic curation, quantum decryption, and subterranean data flows.</p>
+                </div>
+
+                <!-- Row 2: Substantive -->
+                <div class="matrix-cell glass p-6 rounded-xl border-l-4 border-neon-purple">
+                    <span class="text-xs font-bold text-neon-purple uppercase">Substantive</span>
+                    <h3 class="text-xl font-bold text-white mt-2 mb-2">Military Hegemony</h3>
+                    <p class="text-slate-400 text-sm">Autonomous drone swarms, JADC2, and hypersonic deterrence.</p>
+                </div>
+                <div class="matrix-cell glass p-6 rounded-xl border-l-4 border-neon-purple">
+                    <span class="text-xs font-bold text-neon-purple uppercase">Substantive</span>
+                    <h3 class="text-xl font-bold text-white mt-2 mb-2">Financial Hegemony</h3>
+                    <p class="text-slate-400 text-sm">Tokenized assets, CBDC surveillance, and programmable money.</p>
+                </div>
+                <div class="matrix-cell glass p-6 rounded-xl border-l-4 border-neon-purple">
+                    <span class="text-xs font-bold text-neon-purple uppercase">Substantive</span>
+                    <h3 class="text-xl font-bold text-white mt-2 mb-2">Ecological Hegemony</h3>
+                    <p class="text-slate-400 text-sm">Climate engineering (geoengineering), CRISPR, and synthetic biology.</p>
+                </div>
+
+                <!-- Row 3: Cognitive -->
+                <div class="matrix-cell glass p-6 rounded-xl border-l-4 border-neon-cyan">
+                    <span class="text-xs font-bold text-neon-cyan uppercase">Cognitive</span>
+                    <h3 class="text-xl font-bold text-white mt-2 mb-2">Digital Hegemony</h3>
+                    <p class="text-slate-400 text-sm">Data gravity, sovereign cloud monopolies, and AGI alignment control.</p>
+                </div>
+                <div class="matrix-cell glass p-6 rounded-xl border-l-4 border-neon-cyan">
+                    <span class="text-xs font-bold text-neon-cyan uppercase">Cognitive</span>
+                    <h3 class="text-xl font-bold text-white mt-2 mb-2">Discursive Hegemony</h3>
+                    <p class="text-slate-400 text-sm">Generative narrative warfare and LLM-driven reality tunneling.</p>
+                </div>
+                <div class="matrix-cell glass p-6 rounded-xl border-l-4 border-neon-cyan">
+                    <span class="text-xs font-bold text-neon-cyan uppercase">Cognitive</span>
+                    <h3 class="text-xl font-bold text-white mt-2 mb-2">Neurological Hegemony</h3>
+                    <p class="text-slate-400 text-sm">Brain-Computer Interfaces (BCI) and cognitive liberty restrictions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scenarios & Policy (Combined for flow) -->
+    <section id="scenarios" class="py-24">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Macro-Scenarios <span class="text-gradient">(2035-2050)</span></h2>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8 mb-24">
+                <div class="glass p-8 rounded-2xl hover:border-neon-cyan/50 transition group" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex justify-between items-start mb-6">
+                        <span class="px-3 py-1 rounded-full bg-neon-cyan/10 text-neon-cyan text-xs font-bold">25% PROB</span>
+                        <i class="fas fa-crown text-slate-600 group-hover:text-neon-cyan transition text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Techno-Unipolarity</h3>
+                    <p class="text-slate-400 text-sm mb-6">U.S. achieves AGI/Quantum supremacy. A "Walled Garden" world where competitors are permanently locked out.</p>
+                </div>
+                <div class="glass p-8 rounded-2xl border-neon-purple/30 hover:border-neon-purple/60 transition group relative overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+                    <div class="absolute top-0 right-0 bg-neon-purple text-white text-xs font-bold px-3 py-1 rounded-bl-lg">BASELINE</div>
+                    <div class="flex justify-between items-start mb-6">
+                        <span class="px-3 py-1 rounded-full bg-neon-purple/10 text-neon-purple text-xs font-bold">55% PROB</span>
+                        <i class="fas fa-divide text-slate-600 group-hover:text-neon-purple transition text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Bipolar Splinternet</h3>
+                    <p class="text-slate-400 text-sm mb-6">Tech gap narrows. "Small Yard, High Fence" becomes permanent global architecture. High friction.</p>
+                </div>
+                <div class="glass p-8 rounded-2xl hover:border-neon-blue/50 transition group" data-aos="fade-up" data-aos-delay="300">
+                    <div class="flex justify-between items-start mb-6">
+                        <span class="px-3 py-1 rounded-full bg-neon-blue/10 text-neon-blue text-xs font-bold">20% PROB</span>
+                        <i class="fas fa-globe-americas text-slate-600 group-hover:text-neon-blue transition text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Neo-Westphalian Fragmentation</h3>
+                    <p class="text-slate-400 text-sm mb-6">U.S. internal paralysis. Global South consolidates. Algorithmic mercantilism and middle-power swing states.</p>
+                </div>
+            </div>
+
+            <!-- Policy Insights -->
+            <div id="policy" class="pt-12 border-t border-white/5">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Actionable <span class="text-gradient">Policy Imperatives</span></h2>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="glow-border p-8" data-aos="fade-right">
+                        <div class="flex items-center space-x-3 mb-6">
+                            <div class="w-10 h-10 rounded-full bg-neon-blue/20 flex items-center justify-center text-neon-blue"><i class="fas fa-flag-usa"></i></div>
+                            <h3 class="text-xl font-bold text-white">U.S. Statecraft <span class="text-slate-500 text-sm font-normal">(System Admin)</span></h3>
+                        </div>
+                        <ul class="space-y-4">
+                            <li class="flex space-x-3"><i class="fas fa-check-circle text-neon-blue mt-1"></i><div><h4 class="text-white font-semibold text-sm">Patch the Kernel</h4><p class="text-slate-400 text-sm">Prioritize domestic epistemic resilience and debt stabilization.</p></div></li>
+                            <li class="flex space-x-3"><i class="fas fa-check-circle text-neon-blue mt-1"></i><div><h4 class="text-white font-semibold text-sm">Weaponize the API</h4><p class="text-slate-400 text-sm">Shift to surgical "Chokepoint Governance" (EDA, lithography).</p></div></li>
+                            <li class="flex space-x-3"><i class="fas fa-check-circle text-neon-blue mt-1"></i><div><h4 class="text-white font-semibold text-sm">Manage the UI</h4><p class="text-slate-400 text-sm">Rebuild cognitive alliances with the Global South via infrastructure.</p></div></li>
+                        </ul>
+                    </div>
+                    <div class="glow-border p-8" data-aos="fade-left">
+                        <div class="flex items-center space-x-3 mb-6">
+                            <div class="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center text-red-400"><i class="fas fa-chess-knight"></i></div>
+                            <h3 class="text-xl font-bold text-white">Peer Competitors <span class="text-slate-500 text-sm font-normal">(Red Team)</span></h3>
+                        </div>
+                        <ul class="space-y-4">
+                            <li class="flex space-x-3"><i class="fas fa-exclamation-circle text-red-400 mt-1"></i><div><h4 class="text-white font-semibold text-sm">The Structural Trap</h4><p class="text-slate-400 text-sm">Operating within the U.S. OS guarantees subjection to "Root Access".</p></div></li>
+                            <li class="flex space-x-3"><i class="fas fa-exclamation-circle text-red-400 mt-1"></i><div><h4 class="text-white font-semibold text-sm">Application-Layer Fallacy</h4><p class="text-slate-400 text-sm">Localizing EV supply chains is insufficient for true deterrence.</p></div></li>
+                            <li class="flex space-x-3"><i class="fas fa-exclamation-circle text-red-400 mt-1"></i><div><h4 class="text-white font-semibold text-sm">Parallel-OS Imperative</h4><p class="text-slate-400 text-sm">Must build independent root tech, alternative finance, and sovereign AI.</p></div></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-white/5 bg-dark-900">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                <div class="w-6 h-6 rounded bg-gradient-to-br from-neon-blue to-neon-purple flex items-center justify-center"><i class="fas fa-cube text-white text-[10px]"></i></div>
+                <span class="text-slate-500 text-sm">Neo-Americanism Strategic Foresight Project &copy; 2026</span>
+            </div>
+            <div class="flex space-x-6 text-slate-500 text-sm items-center">
+                <span class="hidden md:inline">UNCLASSIFIED // FOR OFFICIAL USE ONLY</span>
+                <a href="#" class="hover:text-white transition"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fab fa-github"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, easing: 'ease-out-cubic', once: true, offset: 50 });
+
+        // Radar Chart for Pillars
+        const radarCtx = document.getElementById('radarChart').getContext('2d');
+        new Chart(radarCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Technological', 'Military', 'Economic', 'Institutional', 'Cultural'],
+                datasets: [{
+                    label: 'U.S. Hegemonic OS',
+                    data: [91, 85, 78, 65, 72],
+                    fill: true,
+                    backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                    borderColor: '#3B82F6',
+                    pointBackgroundColor: '#3B82F6',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#3B82F6'
+                }, {
+                    label: 'Peer Competitor',
+                    data: [60, 75, 82, 40, 30],
+                    fill: true,
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                    borderColor: '#EF4444',
+                    pointBackgroundColor: '#EF4444',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#EF4444'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: { 
+                    legend: { labels: { color: '#94A3B8', font: { family: 'Inter' } } }
+                },
+                scales: {
+                    r: {
+                        angleLines: { color: 'rgba(255,255,255,0.05)' },
+                        grid: { color: 'rgba(255,255,255,0.05)' },
+                        pointLabels: { color: '#E2E8F0', font: { size: 12, family: 'Inter', weight: '500' } },
+                        ticks: { display: false, stepSize: 20 }
+                    }
+                }
+            }
+        });
+
+        // Line Chart for Coupling Score
+        const couplingCtx = document.getElementById('couplingChart').getContext('2d');
+        const gradient = couplingCtx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, 'rgba(139, 92, 246, 0.3)');
+        gradient.addColorStop(1, 'rgba(139, 92, 246, 0)');
+
+        new Chart(couplingCtx, {
+            type: 'line',
+            data: {
+                labels: ['1995', '2001', '2008', '2016', '2022', '2025'],
+                datasets: [{
+                    label: 'Hegemonic Coupling Score',
+                    data: [0.82, 0.80, 0.76, 0.72, 0.70, 0.69],
+                    fill: true,
+                    backgroundColor: gradient,
+                    borderColor: '#8B5CF6',
+                    tension: 0.4,
+                    pointBackgroundColor: '#8B5CF6',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#111827',
+                        titleColor: '#fff',
+                        bodyColor: '#94A3B8',
+                        borderColor: '#334155',
+                        borderWidth: 1
+                    }
+                },
+                scales: {
+                    y: {
+                        min: 0.5, max: 1.0,
+                        grid: { color: 'rgba(255,255,255,0.05)' },
+                        ticks: { color: '#94A3B8', font: { family: 'Inter' } }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#94A3B8', font: { family: 'Inter' } }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
