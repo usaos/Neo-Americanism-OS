@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neo-Americanism | Hegemonic OS Briefing</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ['Inter', 'Noto Sans SC', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    },
+                    colors: {
+                        dark: { 950: '#050810', 900: '#0A0F1C', 800: '#111827', 700: '#1F2937' },
+                        neon: { blue: '#3B82F6', purple: '#8B5CF6', cyan: '#06B6D4', red: '#EF4444', gold: '#F59E0B', green: '#10B981' }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #050810; color: #E2E8F0; font-family: 'Inter', 'Noto Sans SC', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        
+        .bg-grid {
+            background-image: linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+        
+        .glass {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, #06B6D4 0%, #3B82F6 50%, #8B5CF6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .terminal-border {
+            position: relative;
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            background: rgba(5, 8, 16, 0.8);
+        }
+        .terminal-border::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.5), transparent);
+        }
+
+        .glow-blue { box-shadow: 0 0 20px rgba(59, 130, 246, 0.15); }
+        .glow-red { box-shadow: 0 0 20px rgba(239, 68, 68, 0.15); }
+        .glow-cyan { box-shadow: 0 0 20px rgba(6, 182, 212, 0.15); }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050810; }
+        ::-webkit-scrollbar-thumb { background: #1F2937; border-radius: 3px; }
+        
+        .lang-dropdown { display: none; }
+        .lang-dropdown.active { display: block; }
+        
+        .mobile-menu { transform: translateX(100%); transition: transform 0.3s ease-in-out; }
+        .mobile-menu.active { transform: translateX(0); }
+
+        .bluf-card { transition: all 0.3s ease; }
+        .bluf-card:hover { transform: translateY(-4px); border-color: rgba(6, 182, 212, 0.5); }
+        
+        /* Ensure equal height for grid items across languages */
+        .grid-equal { display: flex; flex-direction: column; }
+        .grid-equal > * { flex: 1; }
+    </style>
+</head>
+<body class="bg-grid antialiased selection:bg-neon-cyan selection:text-dark-900">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="w-2 h-2 rounded-full bg-neon-cyan animate-pulse"></div>
+                <span class="font-mono font-bold text-sm tracking-widest text-neon-cyan uppercase" data-i18n="nav_brand">Neo-Americanism.os</span>
+            </div>
+            <div class="hidden lg:flex space-x-8 text-xs font-mono font-medium text-slate-400 uppercase tracking-wider">
+                <a href="#bluf" class="hover:text-neon-cyan transition" data-i18n="nav_bluf">BLUF</a>
+                <a href="#framework" class="hover:text-neon-cyan transition" data-i18n="nav_framework">Framework</a>
+                <a href="#pillars" class="hover:text-neon-cyan transition" data-i18n="nav_pillars">Pillars</a>
+                <a href="#vulnerabilities" class="hover:text-neon-cyan transition" data-i18n="nav_vuln">Vulnerabilities</a>
+                <a href="#matrix" class="hover:text-neon-cyan transition" data-i18n="nav_matrix">2050 Matrix</a>
+                <a href="#policy" class="hover:text-neon-cyan transition" data-i18n="nav_policy">Policy</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <button id="langBtn" class="px-3 py-1.5 rounded border border-neon-cyan/30 bg-neon-cyan/5 hover:bg-neon-cyan/10 text-neon-cyan text-xs font-mono font-bold transition flex items-center space-x-2">
+                        <i class="fas fa-terminal text-[10px]"></i>
+                        <span id="currentLang">EN</span>
+                        <i class="fas fa-chevron-down text-[8px]"></i>
+                    </button>
+                    <div id="langDropdown" class="lang-dropdown absolute right-0 mt-2 w-32 glass rounded shadow-xl py-1 z-50 border border-neon-cyan/20">
+                        <button class="lang-option w-full text-left px-4 py-2 text-xs font-mono text-slate-300 hover:bg-neon-cyan/10 hover:text-neon-cyan transition" data-lang="en">[ EN ]</button>
+                        <button class="lang-option w-full text-left px-4 py-2 text-xs font-mono text-slate-300 hover:bg-neon-cyan/10 hover:text-neon-cyan transition" data-lang="es">[ ES ]</button>
+                        <button class="lang-option w-full text-left px-4 py-2 text-xs font-mono text-slate-300 hover:bg-neon-cyan/10 hover:text-neon-cyan transition" data-lang="zh">[ ZH ]</button>
+                    </div>
+                </div>
+                <button id="menuBtn" class="lg:hidden text-neon-cyan text-xl"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu fixed inset-y-0 right-0 w-64 bg-dark-900 z-50 p-6 shadow-2xl lg:hidden border-l border-neon-cyan/20">
+        <button id="closeMenu" class="absolute top-4 right-4 text-neon-cyan text-xl"><i class="fas fa-times"></i></button>
+        <div class="flex flex-col space-y-6 mt-12 text-slate-300 font-mono text-sm uppercase tracking-wider">
+            <a href="#bluf" class="hover:text-neon-cyan transition mobile-link" data-i18n="nav_bluf">BLUF</a>
+            <a href="#framework" class="hover:text-neon-cyan transition mobile-link" data-i18n="nav_framework">Framework</a>
+            <a href="#pillars" class="hover:text-neon-cyan transition mobile-link" data-i18n="nav_pillars">Pillars</a>
+            <a href="#vulnerabilities" class="hover:text-neon-cyan transition mobile-link" data-i18n="nav_vuln">Vulnerabilities</a>
+            <a href="#matrix" class="hover:text-neon-cyan transition mobile-link" data-i18n="nav_matrix">2050 Matrix</a>
+            <a href="#policy" class="hover:text-neon-cyan transition mobile-link" data-i18n="nav_policy">Policy</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-neon-blue/10 rounded-full filter blur-[150px]"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-neon-purple/10 rounded-full filter blur-[150px]"></div>
+        </div>
+
+        <div class="relative max-w-5xl mx-auto px-6 text-center" data-aos="fade-up">
+            <div class="inline-flex items-center px-4 py-1.5 rounded-full border border-neon-cyan/30 bg-neon-cyan/5 text-neon-cyan text-xs font-mono font-bold mb-8 tracking-widest uppercase">
+                <i class="fas fa-circle text-[6px] mr-2 animate-pulse"></i> <span data-i18n="hero_badge">Full Policy Edition // Strategic Foresight Briefing</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black tracking-tight text-white mb-6 leading-[1.1]">
+                <span data-i18n="hero_title_1">Hegemonic Reconfiguration</span> <br>
+                <span class="text-gradient" data-i18n="hero_title_2">in the Post-Unipolar Order</span>
+            </h1>
+            <p class="text-base md:text-lg text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed font-light" data-i18n="hero_desc">
+                Deconstructing the structural power, systemic vulnerabilities, and deep-future trajectories of the Neo-American operating system. A complex adaptive systems approach to global statecraft.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#bluf" class="px-8 py-3 rounded bg-neon-cyan text-dark-950 font-bold text-sm hover:bg-neon-cyan/90 transition shadow-lg shadow-neon-cyan/20 font-mono uppercase tracking-wider" data-i18n="hero_btn_1">
+                    <i class="fas fa-file-alt mr-2"></i> Executive Summary
+                </a>
+                <a href="#framework" class="px-8 py-3 rounded border border-white/10 text-white font-bold text-sm hover:bg-white/5 transition font-mono uppercase tracking-wider" data-i18n="hero_btn_2">
+                    <i class="fas fa-book mr-2"></i> Explore the Framework
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- BLUF (Bottom Line Up Front) -->
+    <section id="bluf" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-2 font-mono"><span class="text-neon-cyan">[</span> <span data-i18n="bluf_title">Executive Summary (BLUF)</span> <span class="text-neon-cyan">]</span></h2>
+                <p class="text-slate-500 text-sm font-mono uppercase tracking-widest" data-i18n="bluf_sub">The "Unipolar Moment" is dead. The "Hegemonic OS" is mutating.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bluf-card terminal-border p-8 rounded-lg glow-cyan grid-equal" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-3 h-3 rounded-full bg-neon-green"></div>
+                        <span class="text-xs font-mono font-bold text-neon-green uppercase tracking-wider" data-i18n="bluf_1_tag">The Kernel is Intact</span>
+                    </div>
+                    <p class="text-slate-300 text-sm leading-relaxed flex-1" data-i18n="bluf_1_desc">Dollar hegemony, root-level tech architectures (AI/Quantum), and alliance networks provide high systemic resilience. Coupling Score: 0.69 (High).</p>
+                </div>
+                <div class="bluf-card terminal-border p-8 rounded-lg glow-red grid-equal" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-3 h-3 rounded-full bg-neon-red"></div>
+                        <span class="text-xs font-mono font-bold text-neon-red uppercase tracking-wider" data-i18n="bluf_2_tag">The UI/UX is Fracturing</span>
+                    </div>
+                    <p class="text-slate-300 text-sm leading-relaxed flex-1" data-i18n="bluf_2_desc">Domestic polarization and epistemic collapse are causing severe "memory leaks" in the hegemonic OS, degrading global narrative appeal by 27% since 2013.</p>
+                </div>
+                <div class="bluf-card terminal-border p-8 rounded-lg glow-blue grid-equal" data-aos="fade-up" data-aos-delay="300">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-3 h-3 rounded-full bg-neon-blue"></div>
+                        <span class="text-xs font-mono font-bold text-neon-blue uppercase tracking-wider" data-i18n="bluf_3_tag">The Chronopolitical Battleground</span>
+                    </div>
+                    <p class="text-slate-300 text-sm leading-relaxed flex-1" data-i18n="bluf_3_desc">The next great power war is over Agenda-Setting Authority: who defines the AGI alignment and Net-Zero transition timelines.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Framework -->
+    <section id="framework" class="py-24 bg-dark-900/50 border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-2 font-mono"><span class="text-neon-purple">[</span> <span data-i18n="fw_title">Analytical Framework</span> <span class="text-neon-purple">]</span></h2>
+                <p class="text-slate-500 text-sm font-mono uppercase tracking-widest" data-i18n="fw_sub">Moving past traditional IR binaries using a Complex Adaptive Systems (CAS) approach.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div data-aos="fade-right">
+                    <h3 class="text-2xl font-bold text-white mb-6" data-i18n="fw_shift_title">The Post-Unipolar Paradigm Shift</h3>
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 rounded bg-neon-red/10 flex items-center justify-center text-neon-red mt-1"><i class="fas fa-times"></i></div>
+                            <div>
+                                <h4 class="text-white font-semibold text-sm" data-i18n="fw_from_title">From: Universalist Expansion</h4>
+                                <p class="text-slate-400 text-sm" data-i18n="fw_from_desc">Global evangelism, open markets, and broad multilateral institutions (WTO, UN).</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 rounded bg-neon-green/10 flex items-center justify-center text-neon-green mt-1"><i class="fas fa-arrow-right"></i></div>
+                            <div>
+                                <h4 class="text-white font-semibold text-sm" data-i18n="fw_to_title">To: Minilateral "Walled Gardens"</h4>
+                                <p class="text-slate-400 text-sm" data-i18n="fw_to_desc">Exclusive tech-blocs (Chip 4, AUKUS), friend-shoring, and weaponized interdependence.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 rounded bg-neon-cyan/10 flex items-center justify-center text-neon-cyan mt-1"><i class="fas fa-lock"></i></div>
+                            <div>
+                                <h4 class="text-white font-semibold text-sm" data-i18n="fw_choke_title">Chokepoint Governance</h4>
+                                <p class="text-slate-400 text-sm" data-i18n="fw_choke_desc">Shifting from hard kinetic power to controlling critical nodes (SWIFT, EDA software, advanced lithography).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="terminal-border p-8 rounded-lg" data-aos="fade-left">
+                    <h3 class="text-lg font-bold text-neon-purple mb-6 font-mono uppercase tracking-wider" data-i18n="fw_cas_title">Theoretical Intersection (CAS)</h3>
+                    <div class="space-y-6">
+                        <div class="border-l-2 border-neon-blue pl-4">
+                            <h4 class="text-white font-bold text-sm" data-i18n="fw_cas_1_t">Structural Realism</h4>
+                            <p class="text-slate-400 text-xs" data-i18n="fw_cas_1_d">Hard power, military bedrock, and survival in an anarchic system.</p>
+                        </div>
+                        <div class="border-l-2 border-neon-green pl-4">
+                            <h4 class="text-white font-bold text-sm" data-i18n="fw_cas_2_t">Liberal Institutionalism</h4>
+                            <p class="text-slate-400 text-xs" data-i18n="fw_cas_2_d">Rule-locking, API governance, and Bretton Woods veto power.</p>
+                        </div>
+                        <div class="border-l-2 border-neon-purple pl-4">
+                            <h4 class="text-white font-bold text-sm" data-i18n="fw_cas_3_t">Constructivism</h4>
+                            <p class="text-slate-400 text-xs" data-i18n="fw_cas_3_d">Narrative warfare, algorithmic curation, and cognitive alliances.</p>
+                        </div>
+                    </div>
+                    <div class="mt-8 p-4 bg-dark-950 rounded border border-white/5">
+                        <p class="text-xs text-neon-cyan font-mono italic" data-i18n="fw_note">* Power is multiplicative, not additive. A deficit in one domain is compensated by over-indexing in another.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pillars -->
+    <section id="pillars" class="py-24">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-2 font-mono"><span class="text-neon-blue">[</span> <span data-i18n="pil_title">Pentagonal Architecture</span> <span class="text-neon-blue">]</span></h2>
+                <p class="text-slate-500 text-sm font-mono uppercase tracking-widest" data-i18n="pil_sub">The U.S. hegemonic ecosystem relies on five asymmetric pillars.</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4" id="pillarsGrid"></div>
+        </div>
+    </section>
+
+    <!-- Vulnerabilities -->
+    <section id="vulnerabilities" class="py-24 bg-dark-900/50 border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-2 font-mono"><span class="text-neon-red">[</span> <span data-i18n="vul_title">Systemic Vulnerabilities</span> <span class="text-neon-red">]</span></h2>
+                <p class="text-slate-500 text-sm font-mono uppercase tracking-widest" data-i18n="vul_sub">Memory Leaks in the OS. Competitors only need to accelerate these internal feedback loops.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6" id="vulnGrid"></div>
+        </div>
+    </section>
+
+    <!-- Case Study (Stress Test) -->
+    <section class="py-24">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-2 font-mono"><span class="text-neon-gold">[</span> <span data-i18n="cs_title">Empirical Verification</span> <span class="text-neon-gold">]</span></h2>
+                <p class="text-slate-500 text-sm font-mono uppercase tracking-widest" data-i18n="cs_sub">Process tracing the Ukraine Conflict: Multi-domain synergy generates asymmetric impact multipliers.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="terminal-border p-6 rounded-lg" data-aos="fade-up" data-aos-delay="100">
+                    <div class="text-neon-gold font-mono text-xs font-bold mb-2 uppercase" data-i18n="cs_p1_tag">Phase 1: Pre-War</div>
+                    <h4 class="text-white font-bold mb-2" data-i18n="cs_p1_t">Narrative Preemption</h4>
+                    <p class="text-slate-400 text-sm" data-i18n="cs_p1_d">Declassified intelligence disrupted false-flag operations, locking in NATO institutional alignment.</p>
+                </div>
+                <div class="terminal-border p-6 rounded-lg" data-aos="fade-up" data-aos-delay="200">
+                    <div class="text-neon-gold font-mono text-xs font-bold mb-2 uppercase" data-i18n="cs_p2_tag">Phase 2: Kinetic & Econ</div>
+                    <h4 class="text-white font-bold mb-2" data-i18n="cs_p2_t">Full-Spectrum Synergy</h4>
+                    <p class="text-slate-400 text-sm" data-i18n="cs_p2_d">SWIFT ejection + Tech embargoes + Proxy logistics. Data shows a 2.1x impact multiplier vs. single-domain.</p>
+                </div>
+                <div class="terminal-border p-6 rounded-lg border-neon-cyan/30 glow-cyan" data-aos="fade-up" data-aos-delay="300">
+                    <div class="text-neon-cyan font-mono text-xs font-bold mb-2 uppercase" data-i18n="cs_score_tag">The Coupling Score</div>
+                    <h4 class="text-white font-bold mb-2" data-i18n="cs_score_t">0.82 ➔ 0.69</h4>
+                    <p class="text-slate-400 text-sm" data-i18n="cs_score_d">U.S. Hegemonic Coupling Score declined. The OS is bruised, but remains in the High-Resilience Threshold.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2050 Matrix -->
+    <section id="matrix" class="py-24 bg-dark-900/50 border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-2 font-mono"><span class="text-neon-purple">[</span> <span data-i18n="mat_title">Strategic Foresight: 2050 Matrix</span> <span class="text-neon-purple">]</span></h2>
+                <p class="text-slate-500 text-sm font-mono uppercase tracking-widest" data-i18n="mat_sub">Nine Vectors of Systemic Control. The 21st-century empire is built on Data Gravity.</p>
+            </div>
+            <div class="space-y-8" id="matrixGrid"></div>
+
+            <!-- Macro Scenarios -->
+            <div class="mt-24">
+                <h3 class="text-2xl font-bold text-white mb-8 text-center font-mono" data-i18n="scen_title">Macro-Scenarios (2035-2050)</h3>
+                <div class="grid md:grid-cols-3 gap-6" id="scenariosGrid"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Policy -->
+    <section id="policy" class="py-24">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-2 font-mono"><span class="text-neon-cyan">[</span> <span data-i18n="pol_title">Actionable Policy Imperatives</span> <span class="text-neon-cyan">]</span></h2>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="terminal-border p-8 rounded-lg border-neon-blue/30" data-aos="fade-right">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 rounded bg-neon-blue/10 flex items-center justify-center text-neon-blue"><i class="fas fa-shield-alt"></i></div>
+                        <h3 class="text-xl font-bold text-white font-mono" data-i18n="pol_us_t">U.S. Statecraft (System Admin)</h3>
+                    </div>
+                    <div class="space-y-4" id="policyUS"></div>
+                </div>
+                <div class="terminal-border p-8 rounded-lg border-neon-red/30" data-aos="fade-left">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 rounded bg-neon-red/10 flex items-center justify-center text-neon-red"><i class="fas fa-user-secret"></i></div>
+                        <h3 class="text-xl font-bold text-white font-mono" data-i18n="pol_peer_t">Peer Competitors (Red Team)</h3>
+                    </div>
+                    <div class="space-y-4" id="policyPeer"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-white/5 bg-dark-950">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <p class="text-slate-600 text-xs font-mono uppercase tracking-widest mb-2">Neo-Americanism Strategic Foresight Project © 2026</p>
+            <p class="text-neon-red/50 text-[10px] font-mono tracking-widest" data-i18n="footer_class">UNCLASSIFIED // FOR OFFICIAL USE ONLY</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, easing: 'ease-out-cubic', once: true, offset: 50 });
+
+        // --- i18n Translation Dictionary ---
+        const translations = {
+            en: {
+                nav_brand: "Neo-Americanism.os", nav_bluf: "BLUF", nav_framework: "Framework", nav_pillars: "Pillars", nav_vuln: "Vulnerabilities", nav_matrix: "2050 Matrix", nav_policy: "Policy",
+                hero_badge: "Full Policy Edition // Strategic Foresight Briefing",
+                hero_title_1: "Hegemonic Reconfiguration", hero_title_2: "in the Post-Unipolar Order",
+                hero_desc: "Deconstructing the structural power, systemic vulnerabilities, and deep-future trajectories of the Neo-American operating system. A complex adaptive systems approach to global statecraft.",
+                hero_btn_1: '<i class="fas fa-file-alt mr-2"></i> Executive Summary', hero_btn_2: '<i class="fas fa-book mr-2"></i> Explore the Framework',
+                bluf_title: "Executive Summary (BLUF)", bluf_sub: 'The "Unipolar Moment" is dead. The "Hegemonic OS" is mutating.',
+                bluf_1_tag: "The Kernel is Intact", bluf_1_desc: 'Dollar hegemony, root-level tech architectures (AI/Quantum), and alliance networks provide high systemic resilience. Coupling Score: 0.69 (High).',
+                bluf_2_tag: "The UI/UX is Fracturing", bluf_2_desc: 'Domestic polarization and epistemic collapse are causing severe "memory leaks" in the hegemonic OS, degrading global narrative appeal by 27% since 2013.',
+                bluf_3_tag: "The Chronopolitical Battleground", bluf_3_desc: 'The next great power war is over Agenda-Setting Authority: who defines the AGI alignment and Net-Zero transition timelines.',
+                fw_title: "Analytical Framework", fw_sub: "Moving past traditional IR binaries using a Complex Adaptive Systems (CAS) approach.",
+                fw_shift_title: "The Post-Unipolar Paradigm Shift",
+                fw_from_title: "From: Universalist Expansion", fw_from_desc: "Global evangelism, open markets, and broad multilateral institutions (WTO, UN).",
+                fw_to_title: 'To: Minilateral "Walled Gardens"', fw_to_desc: "Exclusive tech-blocs (Chip 4, AUKUS), friend-shoring, and weaponized interdependence.",
+                fw_choke_title: "Chokepoint Governance", fw_choke_desc: "Shifting from hard kinetic power to controlling critical nodes (SWIFT, EDA software, advanced lithography).",
+                fw_cas_title: "Theoretical Intersection (CAS)",
+                fw_cas_1_t: "Structural Realism", fw_cas_1_d: "Hard power, military bedrock, and survival in an anarchic system.",
+                fw_cas_2_t: "Liberal Institutionalism", fw_cas_2_d: "Rule-locking, API governance, and Bretton Woods veto power.",
+                fw_cas_3_t: "Constructivism", fw_cas_3_d: "Narrative warfare, algorithmic curation, and cognitive alliances.",
+                fw_note: "* Power is multiplicative, not additive. A deficit in one domain is compensated by over-indexing in another.",
+                pil_title: "Pentagonal Architecture", pil_sub: "The U.S. hegemonic ecosystem relies on five asymmetric pillars.",
+                vul_title: "Systemic Vulnerabilities", vul_sub: "Memory Leaks in the OS. Competitors only need to accelerate these internal feedback loops.",
+                cs_title: "Empirical Verification", cs_sub: "Process tracing the Ukraine Conflict: Multi-domain synergy generates asymmetric impact multipliers.",
+                cs_p1_tag: "Phase 1: Pre-War", cs_p1_t: "Narrative Preemption", cs_p1_d: "Declassified intelligence disrupted false-flag operations, locking in NATO institutional alignment.",
+                cs_p2_tag: "Phase 2: Kinetic & Econ", cs_p2_t: "Full-Spectrum Synergy", cs_p2_d: "SWIFT ejection + Tech embargoes + Proxy logistics. Data shows a 2.1x impact multiplier vs. single-domain.",
+                cs_score_tag: "The Coupling Score", cs_score_t: "0.82 ➔ 0.69", cs_score_d: "U.S. Hegemonic Coupling Score declined. The OS is bruised, but remains in the High-Resilience Threshold.",
+                mat_title: "Strategic Foresight: 2050 Matrix", mat_sub: "Nine Vectors of Systemic Control. The 21st-century empire is built on Data Gravity.",
+                scen_title: "Macro-Scenarios (2035-2050)",
+                pol_title: "Actionable Policy Imperatives",
+                pol_us_t: "U.S. Statecraft (System Admin)", pol_peer_t: "Peer Competitors (Red Team)",
+                footer_class: "UNCLASSIFIED // FOR OFFICIAL USE ONLY"
+            },
+            es: {
+                nav_brand: "Neo-Americanism.os", nav_bluf: "Resumen", nav_framework: "Marco", nav_pillars: "Pilares", nav_vuln: "Vulnerabilidades", nav_matrix: "Matriz 2050", nav_policy: "Política",
+                hero_badge: "Edición Política Completa // Informe de Prospectiva Estratégica",
+                hero_title_1: "Reconfiguración Hegemónica", hero_title_2: "en el Orden Post-Unipolar",
+                hero_desc: "Deconstruyendo el poder estructural, las vulnerabilidades sistémicas y las trayectorias de futuro profundo del sistema operativo Neo-Americano. Un enfoque de sistemas adaptativos complejos.",
+                hero_btn_1: '<i class="fas fa-file-alt mr-2"></i> Resumen Ejecutivo', hero_btn_2: '<i class="fas fa-book mr-2"></i> Explorar el Marco',
+                bluf_title: "Resumen Ejecutivo (BLUF)", bluf_sub: 'El "Momento Unipolar" ha muerto. El "SO Hegemónico" está mutando.',
+                bluf_1_tag: "El Núcleo está Intacto", bluf_1_desc: 'La hegemonía del dólar, arquitecturas tech raíz (IA/Cuántica) y redes de alianzas proveen alta resiliencia. Puntuación de Acoplamiento: 0.69.',
+                bluf_2_tag: "La UI/UX se está Fracturando", bluf_2_desc: 'La polarización doméstica y el colapso epistémico causan "fugas de memoria" en el SO hegemónico, degradando el appeal narrativo global un 27%.',
+                bluf_3_tag: "El Campo de Batalla Cronopolítico", bluf_3_desc: 'La próxima gran guerra es por la Autoridad de Agenda: quién define la alineación AGI y los plazos Net-Zero.',
+                fw_title: "Marco Analítico", fw_sub: "Superando los binarios IR tradicionales usando un enfoque de Sistemas Adaptativos Complejos (CAS).",
+                fw_shift_title: "El Cambio de Paradigma Post-Unipolar",
+                fw_from_title: "De: Expansión Universalista", fw_from_desc: "Evangelismo global, mercados abiertos e instituciones multilaterales amplias (WTO, ONU).",
+                fw_to_title: 'A: "Jardines Amurallados" Minilaterales', fw_to_desc: "Bloques tech exclusivos (Chip 4, AUKUS), friend-shoring e interdependencia weaponizada.",
+                fw_choke_title: "Gobernanza de Cuellos de Botella", fw_choke_desc: "Cambio de poder cinético duro a control de nodos críticos (SWIFT, software EDA, litografía avanzada).",
+                fw_cas_title: "Intersección Teórica (CAS)",
+                fw_cas_1_t: "Realismo Estructural", fw_cas_1_d: "Poder duro, base militar y supervivencia en un sistema anárquico.",
+                fw_cas_2_t: "Institucionalismo Liberal", fw_cas_2_d: "Bloqueo de reglas, gobernanza API y poder de veto de Bretton Woods.",
+                fw_cas_3_t: "Constructivismo", fw_cas_3_d: "Guerra narrativa, curaduría algorítmica y alianzas cognitivas.",
+                fw_note: "* El poder es multiplicativo, no aditivo. Un déficit en un dominio se compensa sobre-indexando en otro.",
+                pil_title: "Arquitectura Pentagonal", pil_sub: "El ecosistema hegemónico EE.UU. depende de cinco pilares asimétricos.",
+                vul_title: "Vulnerabilidades Sistémicas", vul_sub: "Fugas de Memoria en el SO. Los competidores solo necesitan acelerar estos bucles de retroalimentación.",
+                cs_title: "Verificación Empírica", cs_sub: "Rastreo de procesos del Conflicto de Ucrania: La sinergia multidominio genera multiplicadores de impacto.",
+                cs_p1_tag: "Fase 1: Pre-Guerra", cs_p1_t: "Preemption Narrativa", cs_p1_d: "Inteligencia desclasificada interrumpió operaciones de bandera falsa, asegurando la alineación de la OTAN.",
+                cs_p2_tag: "Fase 2: Cinética y Econ", cs_p2_t: "Sinergia de Espectro Completo", cs_p2_d: "Expulsión SWIFT + embargos tech + logística proxy. Datos muestran un multiplicador de impacto 2.1x.",
+                cs_score_tag: "Puntuación de Acoplamiento", cs_score_t: "0.82 ➔ 0.69", cs_score_d: "La Puntuación de Acoplamiento Hegemónico EE.UU. declinó. El SO está magullado, pero en el Umbral de Alta Resiliencia.",
+                mat_title: "Prospectiva Estratégica: Matriz 2050", mat_sub: "Nueve Vectores de Control Sistémico. El imperio del siglo XXI se construye sobre Gravedad de Datos.",
+                scen_title: "Macro-Escenarios (2035-2050)",
+                pol_title: "Imperativos de Política Accionables",
+                pol_us_t: "Estadística EE.UU. (Admin del Sistema)", pol_peer_t: "Competidores Pares (Equipo Rojo)",
+                footer_class: "NO CLASIFICADO // SOLO PARA USO OFICIAL"
+            },
+            zh: {
+                nav_brand: "新美利坚.os", nav_bluf: "核心摘要", nav_framework: "分析框架", nav_pillars: "五大支柱", nav_vuln: "系统漏洞", nav_matrix: "2050矩阵", nav_policy: "政策建议",
+                hero_badge: "完整政策版 // 战略预测简报",
+                hero_title_1: "后单极秩序下的", hero_title_2: "霸权重构",
+                hero_desc: "解构新美利坚操作系统的结构性权力、系统性漏洞与深度未来轨迹。一种应用于全球治国术的复杂自适应系统方法。",
+                hero_btn_1: '<i class="fas fa-file-alt mr-2"></i> 执行摘要', hero_btn_2: '<i class="fas fa-book mr-2"></i> 探索框架',
+                bluf_title: "执行摘要 (BLUF)", bluf_sub: '“单极时刻”已死。“霸权操作系统”正在变异。',
+                bluf_1_tag: "内核依然完好", bluf_1_desc: '美元霸权、根级别技术架构（AI/量子）和联盟网络提供了极高的系统韧性。耦合评分：0.69（高）。',
+                bluf_2_tag: "UI/UX 正在碎裂", bluf_2_desc: '国内极化和认知崩溃正在霸权操作系统中引发严重的“内存泄漏”，自2013年以来全球叙事吸引力下降27%。',
+                bluf_3_tag: "时间政治战场", bluf_3_desc: '下一场大国战争争夺的是“议程设定权”：谁来定义AGI对齐和净零排放过渡的时间表。',
+                fw_title: "分析框架", fw_sub: "使用复杂自适应系统 (CAS) 方法超越传统国际关系二元论。",
+                fw_shift_title: "后单极范式转移",
+                fw_from_title: "从：普遍主义扩张", fw_from_desc: "全球布道、开放市场和广泛的多边机构（WTO、联合国）。",
+                fw_to_title: '到：小多边“围墙花园”', fw_to_desc: "排他性技术集团（Chip 4、AUKUS）、友岸外包和武器化的相互依存。",
+                fw_choke_title: "咽喉点治理", fw_choke_desc: "从硬动能权力转向控制关键节点（SWIFT、EDA软件、先进光刻机）。",
+                fw_cas_title: "理论交汇 (CAS)",
+                fw_cas_1_t: "结构现实主义", fw_cas_1_d: "硬实力、军事基石和无政府系统中的生存。",
+                fw_cas_2_t: "自由制度主义", fw_cas_2_d: "规则锁定、API治理和布雷顿森林体系否决权。",
+                fw_cas_3_t: "建构主义", fw_cas_3_d: "叙事战、算法策展和认知联盟。",
+                fw_note: "* 权力是乘数，而非加数。一个领域的赤字可以通过在另一个领域的过度索引来补偿。",
+                pil_title: "五边形架构", pil_sub: "美国霸权生态系统依赖于五个不对称支柱。",
+                vul_title: "系统性漏洞", vul_sub: "操作系统中的内存泄漏。竞争对手只需加速这些内部反馈循环。",
+                cs_title: "实证验证", cs_sub: "俄乌冲突的过程追踪：多域协同产生不对称影响乘数。",
+                cs_p1_tag: "第一阶段：战前", cs_p1_t: "叙事抢占", cs_p1_d: "解密情报破坏了假旗行动，锁定了北约的制度对齐。",
+                cs_p2_tag: "第二阶段：动能与经济", cs_p2_t: "全频谱协同", cs_p2_d: "SWIFT驱逐 + 技术禁运 + 代理物流。数据显示影响乘数为2.1倍。",
+                cs_score_tag: "耦合评分", cs_score_t: "0.82 ➔ 0.69", cs_score_d: "美国霸权耦合评分下降。操作系统受挫，但仍处于高韧性阈值内。",
+                mat_title: "战略预测：2050矩阵", mat_sub: "系统控制的九大向量。21世纪的帝国建立在数据重力之上。",
+                scen_title: "宏观情景 (2035-2050)",
+                pol_title: "可操作的政策 imperative",
+                pol_us_t: "美国治国术 (系统管理员)", pol_peer_t: "对等竞争对手 (红队)",
+                footer_class: "非机密 // 仅供官方使用"
+            }
+        };
+
+        const complexTranslations = {
+            en: {
+                pillars: [
+                    {t:"Technological", s:"The Vanguard", d:"91% AI Compute Share", c:"cyan", i:"microchip"},
+                    {t:"Military", s:"The Bedrock", d:"$900B+ Budget / JADC2", c:"blue", i:"fighter-jet"},
+                    {t:"Economic", s:"The Network", d:"Weaponized Finance", c:"green", i:"chart-line"},
+                    {t:"Institutional", s:"The API", d:"Bretton Woods Veto", c:"purple", i:"landmark"},
+                    {t:"Cultural", s:"The Interface", d:"56% Foreign STEM PhDs", c:"gold", i:"brain"}
+                ],
+                vulns: [
+                    {tag:"HIGH / HIGH", t:"Epistemic Collapse", d:"Algorithmic silos and deepfakes destroying shared reality. U.S. democratic appeal dropped 27 pts since 2013 (Pew).", c:"red"},
+                    {tag:"HIGH / MED", t:"Fiscal-Industrial Mismatch", d:"$34T+ National Debt vs. the inflationary costs of \"Friend-shoring\" and forced re-industrialization.", c:"gold"},
+                    {tag:"MED / HIGH", t:"Governance Lag", d:"Exponential tech (AI/Bio) evolving at warp speed vs. linear, gridlocked congressional regulation.", c:"purple"},
+                    {tag:"MED / MED", t:"Alliance Transactionalism", d:"The Global South's hedging strategies and European \"Strategic Autonomy\" friction weakening the bloc.", c:"blue"}
+                ],
+                matrix: [
+                    {cat:"Foundational", color:"cyan", items:[{t:"Spatial Hegemony", d:"Orbital infrastructure, deep-sea cables, lunar claims."},{t:"Temporal Hegemony", d:"Chronopolitics: Dictating global tech/climate clock speed."},{t:"Invisible Hegemony", d:"Algorithmic curation, quantum decryption, subterranean data."}]},
+                    {cat:"Substantive", color:"blue", items:[{t:"Military Hegemony", d:"Autonomous drone swarms, JADC2, hypersonic deterrence."},{t:"Financial Hegemony", d:"Tokenized assets, CBDC surveillance, programmable money."},{t:"Ecological Hegemony", d:"Geoengineering, CRISPR, synthetic biology control."}]},
+                    {cat:"Cognitive", color:"purple", items:[{t:"Digital Hegemony", d:"Data gravity, sovereign cloud monopolies, AGI alignment."},{t:"Discursive Hegemony", d:"Generative narrative warfare, LLM reality tunneling."},{t:"Neurological Hegemony", d:"Brain-Computer Interfaces (BCI), cognitive liberty limits."}]}
+                ],
+                scenarios: [
+                    {prob:"25% PROB", t:"Techno-Unipolarity", d:"U.S. achieves AGI/Quantum supremacy. A \"Walled Garden\" world where competitors are permanently locked out.", c:"cyan"},
+                    {prob:"BASELINE 55%", t:"Bipolar Splinternet", d:"Tech gap narrows. \"Small Yard, High Fence\" becomes permanent global architecture. High friction.", c:"purple"},
+                    {prob:"20% PROB", t:"Neo-Westphalian Fragmentation", d:"U.S. internal paralysis. Global South consolidates. Algorithmic mercantilism and swing states.", c:"red"}
+                ],
+                polUS: [
+                    {t:"Patch the Kernel", d:"Prioritize domestic epistemic resilience and debt stabilization."},
+                    {t:"Weaponize the API", d:"Shift to surgical \"Chokepoint Governance\" (EDA, lithography)."},
+                    {t:"Manage the UI", d:"Rebuild cognitive alliances with the Global South via infrastructure."}
+                ],
+                polPeer: [
+                    {t:"The Structural Trap", d:"Operating within the U.S. OS guarantees subjection to \"Root Access\"."},
+                    {t:"Application-Layer Fallacy", d:"Localizing EV supply chains is insufficient for true deterrence."},
+                    {t:"Parallel-OS Imperative", d:"Must build independent root tech, alternative finance, and sovereign AI."}
+                ]
+            },
+            es: {
+                pillars: [
+                    {t:"Tecnológico", s:"La Vanguardia", d:"91% Cuota Cómputo IA", c:"cyan", i:"microchip"},
+                    {t:"Militar", s:"La Base", d:"$900B+ Presupuesto / JADC2", c:"blue", i:"fighter-jet"},
+                    {t:"Económico", s:"La Red", d:"Finanzas Weaponizadas", c:"green", i:"chart-line"},
+                    {t:"Institucional", s:"La API", d:"Veto Bretton Woods", c:"purple", i:"landmark"},
+                    {t:"Cultural", s:"La Interfaz", d:"56% PhDs STEM Extranjeros", c:"gold", i:"brain"}
+                ],
+                vulns: [
+                    {tag:"ALTO / ALTO", t:"Colapso Epistémico", d:"Silos algorítmicos y deepfakes destruyendo la realidad compartida. Appeal democrático EE.UU. cayó 27 pts.", c:"red"},
+                    {tag:"ALTO / MED", t:"Desajuste Fiscal-Industrial", d:"Deuda $34T+ vs. costos inflacionarios de \"Friend-shoring\" y reindustrialización forzada.", c:"gold"},
+                    {tag:"MED / ALTO", t:"Retraso de Gobernanza", d:"Tech exponencial (IA/Bio) a velocidad warp vs. regulación congressional lineal y bloqueada.", c:"purple"},
+                    {tag:"MED / MED", t:"Transaccionalismo de Alianzas", d:"Estrategias de cobertura del Sur Global y fricción de \"Autonomía Estratégica\" europea.", c:"blue"}
+                ],
+                matrix: [
+                    {cat:"Fundamental", color:"cyan", items:[{t:"Hegemonía Espacial", d:"Infraestructura orbital, cables submarinos, reclamos lunares."},{t:"Hegemonía Temporal", d:"Cronopolítica: Dictar la velocidad del reloj tech/climático."},{t:"Hegemonía Invisible", d:"Curaduría algorítmica, descifrado cuántico, datos subterráneos."}]},
+                    {cat:"Sustantivo", color:"blue", items:[{t:"Hegemonía Militar", d:"Enjambres de drones autónomos, JADC2, disuasión hipersónica."},{t:"Hegemonía Financiera", d:"Activos tokenizados, vigilancia CBDC, dinero programable."},{t:"Hegemonía Ecológica", d:"Geoingeniería, CRISPR, control de biología sintética."}]},
+                    {cat:"Cognitivo", color:"purple", items:[{t:"Hegemonía Digital", d:"Gravedad de datos, monopolios cloud soberanos, alineación AGI."},{t:"Hegemonía Discursiva", d:"Guerra narrativa generativa, túneles de realidad LLM."},{t:"Hegemonía Neurológica", d:"Interfaces Cerebro-Computadora (BCI), límites a libertad cognitiva."}]}
+                ],
+                scenarios: [
+                    {prob:"25% PROB", t:"Tecnología-Unipolaridad", d:"EE.UU. logra supremacía AGI/Cuántica. Un mundo \"Jardín Amurallado\" donde competidores son excluidos.", c:"cyan"},
+                    {prob:"BASE 55%", t:"Splinternet Bipolar", d:"Brecha tech se reduce. \"Patio Pequeño, Cerca Alta\" se vuelve arquitectura global permanente.", c:"purple"},
+                    {prob:"20% PROB", t:"Fragmentación Neo-Westfaliana", d:"Parálisis interna EE.UU. Sur Global se consolida. Mercantilismo algorítmico y estados bisagra.", c:"red"}
+                ],
+                polUS: [
+                    {t:"Parchear el Núcleo", d:"Priorizar resiliencia epistémica doméstica y estabilización de deuda."},
+                    {t:"Weaponizar la API", d:"Cambiar a \"Gobernanza de Cuellos de Botella\" quirúrgica (EDA, litografía)."},
+                    {t:"Gestionar la UI", d:"Reconstruir alianzas cognitivas con el Sur Global vía infraestructura."}
+                ],
+                polPeer: [
+                    {t:"La Trampa Estructural", d:"Operar dentro del SO EE.UU. garantiza sumisión a \"Acceso Raíz\"."},
+                    {t:"Falacia de Capa de Aplicación", d:"Localizar cadenas de suministro EV es insuficiente para disuasión real."},
+                    {t:"Imperativo de SO-Paralelo", d:"Debe construir tech raíz independiente, finanzas alternativas e IA soberana."}
+                ]
+            },
+            zh: {
+                pillars: [
+                    {t:"技术", s:"先锋", d:"91% AI算力份额", c:"cyan", i:"microchip"},
+                    {t:"军事", s:"基石", d:"$900B+预算 / JADC2", c:"blue", i:"fighter-jet"},
+                    {t:"经济", s:"网络", d:"武器化金融", c:"green", i:"chart-line"},
+                    {t:"制度", s:"API", d:"布雷顿森林否决权", c:"purple", i:"landmark"},
+                    {t:"文化", s:"界面", d:"56%外籍STEM博士", c:"gold", i:"brain"}
+                ],
+                vulns: [
+                    {tag:"高 / 高", t:"认知崩溃", d:"算法信息茧房和深度伪造摧毁共享现实。美国民主吸引力自2013年下降27% (Pew)。", c:"red"},
+                    {tag:"高 / 中", t:"财政-工业错配", d:"$34T+国债 vs “友岸外包”和强制再工业化的通胀成本。", c:"gold"},
+                    {tag:"中 / 高", t:"治理滞后", d:"指数级技术（AI/生物）以曲速演进 vs 线性、僵化的国会监管。", c:"purple"},
+                    {tag:"中 / 中", t:"联盟交易主义", d:"全球南方的对冲战略与欧洲“战略自主”摩擦削弱集团。", c:"blue"}
+                ],
+                matrix: [
+                    {cat:"基础", color:"cyan", items:[{t:"空间霸权", d:"轨道基础设施、海底电缆、月球资源主张。"},{t:"时间霸权", d:"时间政治：规定全球科技/气候演进的时钟速度。"},{t:"无形霸权", d:"算法策展、量子解密、地下数据流。"}]},
+                    {cat:"实质", color:"blue", items:[{t:"军事霸权", d:"自主无人机蜂群、JADC2、高超音速威慑。"},{t:"金融霸权", d:"代币化资产、CBDC监控、可编程货币。"},{t:"生态霸权", d:"气候工程、CRISPR、合成生物学控制。"}]},
+                    {cat:"认知", color:"purple", items:[{t:"数字霸权", d:"数据重力、主权云垄断、AGI对齐控制。"},{t:"话语霸权", d:"生成式叙事战、LLM现实隧道效应。"},{t:"神经霸权", d:"脑机接口(BCI)、认知自由限制。"}]}
+                ],
+                scenarios: [
+                    {prob:"25% 概率", t:"技术单极", d:"美国实现AGI/量子霸权。竞争对手被永久锁在外的“围墙花园”世界。", c:"cyan"},
+                    {prob:"基准 55%", t:"两极分裂网", d:"技术差距缩小。“小院高墙”成为永久性全球架构。高摩擦。", c:"purple"},
+                    {prob:"20% 概率", t:"新威斯特伐利亚碎片化", d:"美国内部瘫痪。全球南方整合。算法重商主义与摇摆国。", c:"red"}
+                ],
+                polUS: [
+                    {t:"修补内核", d:"优先恢复国内认知韧性与债务稳定。"},
+                    {t:"武器化API", d:"转向外科手术式的“咽喉点治理”（EDA、光刻机）。"},
+                    {t:"管理UI", d:"通过基础设施重建与全球南方的认知联盟。"}
+                ],
+                polPeer: [
+                    {t:"结构性陷阱", d:"在美国操作系统内运行，注定受制于“Root根权限”。"},
+                    {t:"应用层谬误", d:"仅将电动车供应链本地化，不足以实现真正的威慑。"},
+                    {t:"平行OS imperative", d:"必须构建独立的根技术、替代金融和主权AI。"}
+                ]
+            }
+        };
+
+        // --- State & Logic ---
+        let currentLang = localStorage.getItem('siteLang') || 'en';
+        const langBtn = document.getElementById('langBtn');
+        const langDropdown = document.getElementById('langDropdown');
+        const currentLangSpan = document.getElementById('currentLang');
+        const langOptions = document.querySelectorAll('.lang-option');
+
+        langBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            langDropdown.classList.toggle('active');
+        });
+        document.addEventListener('click', () => langDropdown.classList.remove('active'));
+
+        langOptions.forEach(opt => {
+            opt.addEventListener('click', () => {
+                const lang = opt.getAttribute('data-lang');
+                setLanguage(lang);
+                langDropdown.classList.remove('active');
+            });
+        });
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('siteLang', lang);
+            currentLangSpan.textContent = lang.toUpperCase();
+            document.documentElement.lang = lang;
+            
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) el.innerHTML = translations[lang][key];
+            });
+
+            renderPillars(lang);
+            renderVulns(lang);
+            renderMatrix(lang);
+            renderScenarios(lang);
+            renderPolicy(lang);
+            
+            // Refresh AOS for dynamically rendered elements
+            AOS.refresh();
+        }
+
+        function renderPillars(lang) {
+            const container = document.getElementById('pillarsGrid');
+            const data = complexTranslations[lang].pillars;
+            container.innerHTML = data.map((p, i) => `
+                <div class="terminal-border p-6 rounded-lg text-center hover:border-neon-${p.c}/50 transition grid-equal" data-aos="fade-up" data-aos-delay="${i*100}">
+                    <div class="w-12 h-12 mx-auto rounded-full bg-neon-${p.c}/10 flex items-center justify-center text-neon-${p.c} text-xl mb-4"><i class="fas fa-${p.i}"></i></div>
+                    <h4 class="text-white font-bold text-sm mb-1">${p.t}</h4>
+                    <p class="text-neon-${p.c} text-[10px] font-mono uppercase tracking-wider mb-3">${p.s}</p>
+                    <p class="text-slate-400 text-xs font-mono flex-1 flex items-center justify-center">${p.d}</p>
+                </div>
+            `).join('');
+        }
+
+        function renderVulns(lang) {
+            const container = document.getElementById('vulnGrid');
+            const data = complexTranslations[lang].vulns;
+            container.innerHTML = data.map((v, i) => `
+                <div class="terminal-border p-6 rounded-lg border-l-4 border-neon-${v.c} grid-equal" data-aos="fade-up" data-aos-delay="${i*100}">
+                    <div class="flex justify-between items-center mb-3">
+                        <h4 class="text-white font-bold">${v.t}</h4>
+                        <span class="text-[10px] font-mono font-bold text-neon-${v.c} bg-neon-${v.c}/10 px-2 py-1 rounded whitespace-nowrap ml-2">${v.tag}</span>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed flex-1">${v.d}</p>
+                </div>
+            `).join('');
+        }
+
+        function renderMatrix(lang) {
+            const container = document.getElementById('matrixGrid');
+            const data = complexTranslations[lang].matrix;
+            container.innerHTML = data.map(cat => `
+                <div data-aos="fade-up">
+                    <h3 class="text-xs font-mono font-bold text-neon-${cat.color} uppercase tracking-widest mb-4 flex items-center"><i class="fas fa-layer-group mr-2"></i> ${cat.cat}</h3>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        ${cat.items.map(item => `
+                            <div class="glass p-5 rounded border border-white/5 hover:border-neon-${cat.color}/30 transition grid-equal">
+                                <h4 class="text-white font-bold text-sm mb-2">${item.t}</h4>
+                                <p class="text-slate-400 text-xs leading-relaxed flex-1">${item.d}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderScenarios(lang) {
+            const container = document.getElementById('scenariosGrid');
+            const data = complexTranslations[lang].scenarios;
+            container.innerHTML = data.map((sc, i) => `
+                <div class="terminal-border p-6 rounded-lg relative overflow-hidden hover:border-neon-${sc.c}/50 transition grid-equal" data-aos="fade-up" data-aos-delay="${i*100}">
+                    <div class="absolute top-0 right-0 bg-neon-${sc.c} text-dark-950 text-[10px] font-mono font-bold px-3 py-1 rounded-bl">${sc.prob}</div>
+                    <h4 class="text-white font-bold text-lg mb-3 mt-4">${sc.t}</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed flex-1">${sc.d}</p>
+                </div>
+            `).join('');
+        }
+
+        function renderPolicy(lang) {
+            const usContainer = document.getElementById('policyUS');
+            const peerContainer = document.getElementById('policyPeer');
+            const usData = complexTranslations[lang].polUS;
+            const peerData = complexTranslations[lang].polPeer;
+
+            usContainer.innerHTML = usData.map(p => `
+                <div class="flex items-start space-x-3">
+                    <div class="w-6 h-6 rounded bg-neon-blue/10 flex items-center justify-center text-neon-blue text-xs mt-0.5 flex-shrink-0"><i class="fas fa-chevron-right"></i></div>
+                    <div><h4 class="text-white font-bold text-sm">${p.t}</h4><p class="text-slate-400 text-xs">${p.d}</p></div>
+                </div>
+            `).join('');
+
+            peerContainer.innerHTML = peerData.map(p => `
+                <div class="flex items-start space-x-3">
+                    <div class="w-6 h-6 rounded bg-neon-red/10 flex items-center justify-center text-neon-red text-xs mt-0.5 flex-shrink-0"><i class="fas fa-exclamation-triangle"></i></div>
+                    <div><h4 class="text-white font-bold text-sm">${p.t}</h4><p class="text-slate-400 text-xs">${p.d}</p></div>
+                </div>
+            `).join('');
+        }
+
+        // Mobile Menu
+        const menuBtn = document.getElementById('menuBtn');
+        const closeMenu = document.getElementById('closeMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        menuBtn.addEventListener('click', () => mobileMenu.classList.add('active'));
+        closeMenu.addEventListener('click', () => mobileMenu.classList.remove('active'));
+        mobileLinks.forEach(link => link.addEventListener('click', () => mobileMenu.classList.remove('active')));
+
+        window.addEventListener('DOMContentLoaded', () => setLanguage(currentLang));
+    </script>
+</body>
+</html>
